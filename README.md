@@ -2,13 +2,32 @@
 
 ## DESCRIPTION
 
-FHEM Module to use the ntfy.sh service for piush notifications. 
-Selft hosted servers are also supported.
+FHEM Module to use the ntfy.sh service for push notifications. 
+Self hosted servers are also supported.
+
+## NOTICE 
+
+At the moment this is only work for myself. There is no documentation except
+code comments. This might change in the future.
+
+My time is very limitted due to family and work constraints. So do not expect 
+any major contributions.
+
+## ISSUES
+
+You are welcome to leave issues here. But please be friendly and keep in mind
+that this is a sparetime project of someone with a family.
 
 ## Authors
 
 - Dominik Meyer <dmeyer@federationhq.de>
 
+## SOURCE
+
+The origin of this repository is https://gitea.federationhq.de/byterazor/FHEM-NTFY.
+
+The github repository is, for the moment, a push mirror to organize tickets. 
+This will change in the future!
 
 ## License
 
