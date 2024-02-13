@@ -18,6 +18,8 @@ any major contributions.
 You are welcome to leave issues here. But please be friendly and keep in mind
 that this is a sparetime project of someone with a family.
 
+You will find the issue tracker at https://rm.byterazor.de/projects/fhem-ntfy.
+
 ## Authors
 
 - Dominik Meyer <dmeyer@federationhq.de>
