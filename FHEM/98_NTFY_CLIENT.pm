@@ -120,7 +120,7 @@ sub NTFY_Define
 
     $hash->{NAME}                   = $name;
     $hash->{SERVER}                 = $params->[2];
-    $hash->{STATE}                  = "offline";
+    $hash->{STATE}                  = "unknown";
     $hash->{USERNAME}               = $h->{user} || "";
     $hash->{helper}{PASSWORD}       = $h->{password};
     $hash->{DEFAULT_TOPIC}          = $h->{topic};
@@ -232,8 +232,8 @@ sub NTFY_WS_Handshake
 
   DevIo_SimpleWrite( $hash, '', 2 );
   NTFY_LOG(LOG_ERROR, "websocket connected");
-  
-  DoTrigger($hash->{PNAME}, "online");
+
+  readingsSingleUpdate($hash, "state", "online", 1);
 } 
 
 sub NTFY_WS_CB 
