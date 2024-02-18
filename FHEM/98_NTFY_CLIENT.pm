@@ -123,13 +123,9 @@ sub NTFY_Define
     $hash->{STATE}                  = "unknown";
     $hash->{USERNAME}               = $h->{user} || "";
     $hash->{helper}{PASSWORD}       = $h->{password};
-    $hash->{DEFAULT_TOPIC}          = $h->{topic};
 
     my @topics;
     $hash->{helper}->{topics}       = \@topics;
-
-    
-    NTFY_newSubscription($hash,$hash->{DEFAULT_TOPIC});
 
     return;
 }
@@ -430,8 +426,6 @@ sub NTFY_Create_Msg_From_Arguments
 sub NTFY_Set 
 {
     my ( $hash, $name, $cmd, @args ) = @_;
-    
-    NTFY_LOG(LOG_ERROR, "CMD:" . $cmd);
     
     if ($cmd eq "publish" )
     {
