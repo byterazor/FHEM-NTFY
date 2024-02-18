@@ -448,4 +448,11 @@ sub NTFY_Set
 
 }
 
+sub NTFY_Attr
+{
+  my ( $cmd, $name, $aName, $aValue ) = @_;
+  return undef;
+}
+
+
 1;
