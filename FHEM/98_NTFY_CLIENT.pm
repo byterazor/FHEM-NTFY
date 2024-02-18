@@ -238,9 +238,15 @@ sub NTFY_WS_CB
 
     my $name  = $hash->{NAME};
     
+    readingsBeginUpdate($hash);
+    readingsBulkUpdate($hash, "state", "error");
+    readingsBulkUpdate($hash, "error", $error);
+    readingsEndUpdate($hash,1);
+
     NTFY_LOG(LOG_ERROR, "error while connecting to websocket: $error ") if $error;
     NTFY_LOG(LOG_DEBUG, "websocket callback called");
     return $error;
+
 }
 
 sub NTFY_Read
