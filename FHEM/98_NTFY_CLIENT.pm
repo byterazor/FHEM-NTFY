@@ -313,9 +313,9 @@ sub NTFY_Publish_Msg
     my $param = {
                     url        => $url,
                     timeout    => 5,
-                    hash       => $hash,                                                                                 # Muss gesetzt werden, damit die Callback funktion wieder $hash hat
+                    hash       => $hash,                                                                                 
                     method     => "POST",
-                    data       => to_json($message),                                                                                 # Lesen von Inhalten
+                    data       => to_json($message),                                                                                 
                     callback   => sub () {
                       my ($param, $err, $data) = @_;
                       my $hash = $param->{hash};
@@ -335,7 +335,7 @@ sub NTFY_Publish_Msg
                       readingsBulkUpdateIfChanged($hash, "lastEror", "");
                       readingsEndUpdate($hash,1);
 
-                    }                                                                  # Diese Funktion soll das Ergebnis dieser HTTP Anfrage bearbeiten
+                    }                                                                  
                 };
          HttpUtils_NonblockingGet($param);
   }
