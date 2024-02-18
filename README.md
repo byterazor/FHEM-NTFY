@@ -28,8 +28,7 @@ You will find the issue tracker at https://rm.byterazor.de/projects/fhem-ntfy.
 
 The origin of this repository is https://gitea.federationhq.de/byterazor/FHEM-NTFY.
 
-The github repository is, for the moment, a push mirror to organize tickets. 
-This will change in the future!
+The github repository is just a push mirror.
 
 ## License
 
