@@ -197,7 +197,7 @@ sub NTFY_newSubscription
   $dev =~ s/^.*:\/\//wss:/;
 
   # just for debugging purposes
-  NTFY_LOG(LOG_ERROR,"using websocket url: " . $dev);
+  NTFY_LOG(LOG_DEBUG,"using websocket url: " . $dev);
 
   $thash->{DeviceName}=$dev;
   $thash->{WEBSOCKET} = 1;
@@ -227,7 +227,7 @@ sub NTFY_WS_Handshake
   my $name = $hash->{NAME};
 
   DevIo_SimpleWrite( $hash, '', 2 );
-  NTFY_LOG(LOG_ERROR, "websocket connected");
+  NTFY_LOG(LOG_DEBUG, "websocket connected");
 
   readingsSingleUpdate($hash, "state", "online", 1);
 } 
@@ -272,7 +272,7 @@ sub NTFY_Read
   readingsBulkUpdateIfChanged($hash->{phash}, "lastReceivedTopic", $msg->{topic});
   readingsEndUpdate($hash->{phash},1);
 
-  NTFY_LOG(LOG_ERROR, $hash->{NAME} . " received: " . $buf);
+  NTFY_LOG(LOG_DEBUG, $hash->{NAME} . " received: " . $buf);
 
 }
 sub NTFY_Publish_Msg
@@ -280,7 +280,7 @@ sub NTFY_Publish_Msg
   my $hash    = shift;
   my $msg     = shift;
 
-  NTFY_LOG(LOG_ERROR, Dumper($msg));
+  NTFY_LOG(LOG_DEBUG, Dumper($msg));
   my $auth    = "";
   if ($hash->{helper}->{PASSWORD} && length($hash->{helper}->{PASSWORD}) > 0)
   {
@@ -314,7 +314,7 @@ sub NTFY_Publish_Msg
       $message->{priority} = $msg->{priority};
     }
 
-    NTFY_LOG(LOG_ERROR, "Publish:" . Dumper($message));
+    NTFY_LOG(LOG_DEBUG, "Publish:" . Dumper($message));
     my $param = {
                     url        => $url,
                     timeout    => 5,
@@ -361,7 +361,7 @@ sub NTFY_Create_Msg_From_Arguments
 
   my $string=join(" ",@args);
   my $tmpmessage = $string =~ s/\\n/\x0a/rg;
-  NTFY_LOG(LOG_ERROR,"create:" . $tmpmessage);
+  NTFY_LOG(LOG_DEBUG,"create:" . $tmpmessage);
   @args=parse_line(' ',0,$tmpmessage);
 
   for my $a (@args)
@@ -438,7 +438,7 @@ sub NTFY_Set
     
     if ($cmd eq "publish" )
     {
-        NTFY_LOG(LOG_ERROR, "full command: " . join(' ', @args));
+        NTFY_LOG(LOG_DEBUG, "full command: " . join(' ', @args));
         my $msg = NTFY_Create_Msg_From_Arguments($hash, $name,@args);
         NTFY_Publish_Msg($hash, $msg) unless !defined($msg);
 
