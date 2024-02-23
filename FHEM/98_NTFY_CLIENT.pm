@@ -477,16 +477,84 @@ sub NTFY_Attr
 #########################################
 
 =pod
-=item summary    devices to send and receive push notifications through ntfy.sh and self hosted instances
 
-<a name="NTFY_CLIENT"></a>
-<h3>NTFY_CLIENT</h3>
-<li>
-  ntfy.sh is a service to publish messages to and receive messages from topics. It is also possible 
-  to host own instances of the service. The service can be used from the commandline using curl or 
-  wget and also from smartphone applications. The later are available for IOS and Android.
-</li>
-<li>
-  Module development takes place at <a href="https://rm.byterazor.de/projects/fhem-ntfy">https://rm.byterazor.de/projects/fhem-ntfy</a>.
-</li>
+=item summary A module for pushing and receiving notifications from an ntfy.sh compatible server
+
+=item summary_DE Ein module zu senden und empfangen von Benachrichtigungen über einen ntfy.sh kompatiblen server
+
+=begin html
+
+  <h3>NTFY_CLIENT</h3>
+  <a id="NTFY_CLIENT"></a>
+  <br/>
+  NTFY_CLIENT is a module for connecting to an <a href="https://nfy.sh">ntfy.sh</a> compatible server. <br/> 
+  It supports <a href="https://nfy.sh">ntfy.sh</a> in the cloud but also self-hosted instances as long as 
+  the fhem server is able to connect to it. <br/>
+
+  <h4>Wiki</h4>
+  The wiki for this module can be found <a href="https://rm.byterazor.de/projects/fhem-ntfy/wiki">here</a>.
+
+  <h4>Integration with globalMSG</h4>
+  This module integrates with the fhem <a href="#MSG">messaging system</a>. <br/>
+  To use it you have to set the <code>msgCmdPush</code> attribute of the 
+  <code>globalMSG</code> device to someting like <br/>
+  <code>set &#37;DEVICE&#37; publish @&#37;RECIPIENT&#37; !&#37;PRIORITY&#37; *&#37;TITLE&#37; &#37;MSG&#37;</code>
+  <br/>
+  After that you can use the <code>msg</code> to send out notifications to topics configured within devices.
+  <br/>
+  Please look for the <a href="#MSG">MSG</a> documentation for more information.
+
+
+  <a id="NTFY_CLIENT-define"></a>
+  <h4>Define</h4>
+  <code>define NTFY0 NTFY_CLIENT 	&#60;url&#62; password=&#60;password&#62; user=&#60;user&#62;</code>
+
+  <dl>
+    <dt><b>url</b></dt>
+    <dd>The url to the ntfy.sh compatible server. This parameter is <b>mandatory</b>.</dd>
+    <dt><b>password</b></dt>
+    <dd>If you have an account at one ntfy server you can put the password in here. This parameter is optional.</dd>
+    <dt><b>user</b></dt>
+    <dd>If you have an account at one ntfy server you can put the username in here. This parameter is optional.</dd>
+  </dl>
+
+  If you want to use token authentication just set the token as the password and ignore the user parameter.
+
+  <a id="NTFY_CLIENT-set"></a>
+  <h4>Set</h4>
+  The module supports the following set commands 
+  <dl>
+    <dt><b>publish</b></dt>
+    <dd>
+      This set command publishes a notification through the configured ntfy server. <br/>
+      <code>set publish @fhem-topic #keyword !high *title this is my message</code><br/>
+      The following key tags are supported right now
+      <ul>
+        <li>@ - identifies a topic. Can be used multiple times.</li>
+        <li># - a ntfy keyword. Can be used multiple times.</li>
+        <li>! - the priority. The last mentioned priority wins. (high, medium, low, default) </li>
+        <li>* - the title of the notification. The last mentioned title wins. </li>
+      </ul>
+      Everything without a prefix is considered the messages and is concatenated.
+    </dd>
+  </dl>
+  
+  <a id="NTFY_CLIENT-get"></a>
+  <h4>Get</h4>
+  No get commands supported yet.
+
+  <a id="NTFY_CLIENT-attrib"></a>
+  <h4>Attributes</h4>
+  No own attributes supported yet.
+
+=end html
+
+=begin html_DE
+
+ <h3>NTFY_CLIENT</h3>
+ <a id="NTFY_CLIENT"></a>
+ blabla
+
+=end html_DE
+
 =cut
