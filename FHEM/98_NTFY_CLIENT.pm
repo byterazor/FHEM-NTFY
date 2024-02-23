@@ -1,9 +1,33 @@
-#
-# This FHEM Module provides push notifications through the ntfy.sh service and 
-# other compatible servers.
-#
-# Author: Dominik Meyer <dmeyer@đederationhq.de>
-#
+=head1 NAME
+
+NTFY_CLIENT - client for ntfy.sh based servers
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright (C) 2024 by Dominik Meyer
+
+This program is free software: you can redistribute it and/or modify it under the terms of the 
+GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+This module is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even 
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. 
+If not, see <https://www.gnu.org/licenses/>.
+
+=head1 DESCRIPTION
+
+This module provides push notifications through the ntfy.sh service and
+other compatible servers.
+
+=head1 AUTHORS
+
+Dominik Meyer <dmeyer@federationhq.de>
+
+=cut
+
 package main;
 
 # enforce strict and warnings mode
