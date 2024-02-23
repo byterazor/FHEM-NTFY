@@ -37,16 +37,6 @@ use constant {
     PRIO_LOW            => 2
 };
 
-
-my %NTFY_SETS =
-(
-  "_msg" => "textField",
-  "message" => "textField",
-  "msg" => "textField",
-  "send" => "textField"
-);
-
-
 # NTFY logging method
 sub NTFY_LOG
 {
@@ -459,3 +449,20 @@ sub NTFY_Attr
 
 
 1;
+
+#########################################
+
+=pod
+=item summary    devices to send and receive push notifications through ntfy.sh and self hosted instances
+
+<a name="NTFY_CLIENT"></a>
+<h3>NTFY_CLIENT</h3>
+<li>
+  ntfy.sh is a service to publish messages to and receive messages from topics. It is also possible 
+  to host own instances of the service. The service can be used from the commandline using curl or 
+  wget and also from smartphone applications. The later are available for IOS and Android.
+</li>
+<li>
+  Module development takes place at <a href="https://rm.byterazor.de/projects/fhem-ntfy">https://rm.byterazor.de/projects/fhem-ntfy</a>.
+</li>
+=cut
