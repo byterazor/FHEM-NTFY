@@ -112,6 +112,7 @@ sub NTFY_CLIENT_Initialize
   $hash->{ReadFn}     = 'NTFY_Read';
   $hash->{AttrFn}     = 'NTFY_Attr';
   $hash->{ParseFn}    = 'NTFY_Parse';
+  $hash->{DeleteFn}   = 'NTFY_Delete';
   $hash->{AttrList}   = "defaultTopic "
                         . $readingFnAttributes;
 
@@ -415,6 +416,19 @@ sub NTFY_Parse ($$)
   }
 
 	return;
+}
+
+sub NTFY_Delete
+{
+    my ( $hash, $name ) = @_;
+
+    #we need to delete all topic devices
+    for my $k (keys %{$modules{NTFY_TOPIC}{defptr}})
+    {
+      $k=~/^(.*)_(.*)$/;
+      my $h = $modules{NTFY_TOPIC}{defptr}{$k};
+      fhem("delete " . $h->{NAME});
+    }
 }
 
 1;
