@@ -165,9 +165,17 @@ sub NTFY_newSubscription
   my $topic = shift;
 
   my $newDeviceName = makeDeviceName($hash->{NAME} . "_" . $topic);
-  my $token = NFTY_Calc_Auth_Token($hash->{helper}->{PASSWORD},$hash->{USERNAME});
-
-  fhem("define $newDeviceName NTFY_TOPIC " . $hash->{SERVER} . " " . $token . " " . $topic);
+  
+  my $token;
+  if ($hash->{helper}->{PASSWORD}) 
+  {
+    $token= NFTY_Calc_Auth_Token($hash->{helper}->{PASSWORD},$hash->{USERNAME});
+    fhem("define $newDeviceName NTFY_TOPIC " . $hash->{SERVER} . " " . $token . " " . $topic);
+  }
+  else
+  {
+    fhem("define $newDeviceName NTFY_TOPIC " . $hash->{SERVER} . " " . $topic);
+  }
 
   NTFY_Update_Subscriptions_Readings($hash);
 }

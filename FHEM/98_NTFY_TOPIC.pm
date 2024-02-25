@@ -100,12 +100,25 @@ sub NTFY_TOPIC_Define
     # parse parameters into array and hash
     my($params, $h) = parseParams($define);
 
+    my $token;
+    my $topic;
+
+    if ($params->[4])
+    {
+      $topic = $params->[4];
+      $token = $params->[3]
+    }
+    else 
+    {
+      $topic = $params->[3];
+    }
+
     my $name                        = makeDeviceName($params->[0]);
 
     $hash->{NAME}                   = $name;
     $hash->{SERVER}                 = $params->[2];
-    $hash->{helper}{authString}     = $params->[3];
-    $hash->{TOPIC}                  = $params->[4];
+    $hash->{helper}{authString}     = $token;
+    $hash->{TOPIC}                  = $topic;
     $hash->{Clients}                = "NTFY_CLIENT";
     $hash->{ClientsKeepOrder}       = 1;
     $hash->{STATE}                  = "unknown";
