@@ -93,9 +93,9 @@ sub NFTY_Calc_Auth_Token
     return;
   }
 
-  my $auth=encode_base64($username.":".$password);
+  my $auth=encode_base64($username.":".$password, "");
   
-  my $authString = encode_base64("Basic " . $auth);
+  my $authString = encode_base64("Basic " . $auth, "");
   $authString =~ s/=//g;
 
   return $authString;
@@ -219,6 +219,8 @@ sub NTFY_Publish_Msg
     {
       $message->{priority} = $msg->{priority};
     }
+
+
 
     NTFY_LOG(LOG_DEBUG, "Publish:" . Dumper($message));
     my $param = {
