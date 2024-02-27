@@ -220,6 +220,10 @@ sub NTFY_Publish_Msg
       $message->{priority} = $msg->{priority};
     }
 
+    if ($msg->{keywords})
+    {
+      $message->{tags} = $msg->{keywords};
+    }
 
 
     NTFY_LOG(LOG_DEBUG, "Publish:" . Dumper($message));
