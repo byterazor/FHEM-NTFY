@@ -254,7 +254,7 @@ sub NTFY_Publish_Msg
 
                       readingsBeginUpdate($hash);
                       readingsBulkUpdateIfChanged($hash, "nrPublishedMessages", $nrPublishedMessages);
-                      readingsBulkUpdateIfChanged($hash, "lastUsedTopic", $msg->{topic});
+                      readingsBulkUpdateIfChanged($hash, "lastUsedTopic", join(",", @{$msg->{topics}}));
                       readingsBulkUpdateIfChanged($hash, "lastMessageSend", $msg->{text});
                       readingsBulkUpdateIfChanged($hash, "lastRawMessage", to_json($message));
                       readingsBulkUpdateIfChanged($hash, "lastEror", "");
