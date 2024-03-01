@@ -523,7 +523,7 @@ sub NTFY_Delete
       <ul>
         <li>@ - identifies a topic. Can be used multiple times.</li>
         <li># - a ntfy keyword. Can be used multiple times.</li>
-        <li>! - the priority. The last mentioned priority wins. (high, medium, low, default) </li>
+        <li>! - the priority. The last mentioned priority wins. (max, high, default, low, min) </li>
         <li>* - the title of the notification. The last mentioned title wins. </li>
       </ul>
       Everything without a prefix is considered the messages and is concatenated.
@@ -546,6 +546,11 @@ sub NTFY_Delete
     <dt><b>defaultTopic</b></dt>
     <dd>
       Sets the default topic used if no topic is provided within the publish string.
+    </dd>
+    <dt><b>defaultPriority</b></dt>
+    <dd>
+      Sets the default priority used if no priority is provided within the publish string. 
+      Values: (max, high, default, low, min)
     </dd>
   </dl>
 
