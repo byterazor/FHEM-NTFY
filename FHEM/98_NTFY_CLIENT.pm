@@ -137,10 +137,11 @@ sub NTFY_Define
 
     $hash->{NAME}                   = $name;
     $hash->{SERVER}                 = $params->[2];
-    $hash->{STATE}                  = "unknown";
     $hash->{USERNAME}               = $h->{user} || "";
     $hash->{helper}{PASSWORD}       = $h->{password};
     $modules{NTFY_CLIENT}{defptr}{$hash->{SERVER}} = $hash;
+
+    readingsSingleUpdate($hash, "state", "passive",1);
 
     return;
 }
