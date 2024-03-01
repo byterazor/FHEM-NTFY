@@ -247,7 +247,11 @@ sub NTFY_Publish_Msg
                         return;
                       }
 
+                       my $nrPublishedMessages = ReadingsVal($hash->{NAME}, "nrPublishedMessages", 0);
+                       $nrPublishedMessages++;
+
                       readingsBeginUpdate($hash);
+                      readingsBulkUpdateIfChanged($hash, "nrPublishedMessages", $nrPublishedMessages);
                       readingsBulkUpdateIfChanged($hash, "lastUsedTopic", $msg->{topic});
                       readingsBulkUpdateIfChanged($hash, "lastMessageSend", $msg->{text});
                       readingsBulkUpdateIfChanged($hash, "lastRawMessage", to_json($message));
