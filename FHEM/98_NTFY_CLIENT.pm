@@ -56,9 +56,11 @@ use constant {
     LOG_RECEIVE         => 4,
     LOG_DEBUG           => 5,
 
+    PRIO_MAX            => 5,
+    PRIO_HIGH           => 4,
     PRIO_DEFAULT        => 3,
-    PRIO_HIGH           => 5,
-    PRIO_LOW            => 2
+    PRIO_LOW            => 2,
+    PRIO_MIN            => 1
 };
 
 # NTFY logging method
@@ -114,7 +116,7 @@ sub NTFY_CLIENT_Initialize
   $hash->{ParseFn}    = 'NTFY_Parse';
   $hash->{DeleteFn}   = 'NTFY_Delete';
   $hash->{AttrList}   = "defaultTopic " .
-                        ""
+                        "defaultPriority:max,high,default,low,min "
                         . $readingFnAttributes;
 
 }
@@ -275,7 +277,7 @@ sub NTFY_Create_Msg_From_Arguments
   my @keywords;
   my $text;
   my $title;
-  my $priority = AttrVal($name, "defaultPriority", PRIO_DEFAULT);
+  my $priority = AttrVal($name, "defaultPriority", "default");
 
   my $string=join(" ",@args);
   my $tmpmessage = $string =~ s/\\n/\x0a/rg;
@@ -298,19 +300,7 @@ sub NTFY_Create_Msg_From_Arguments
     }
     elsif (substr($a,0,1) eq "!")
     {
-      my $tmpPriority=substr($a,1,length($a));
-      if ($tmpPriority eq "default")
-      {
-        $priority=PRIO_DEFAULT;
-      }
-      elsif($tmpPriority eq "high")
-      {
-        $priority=PRIO_HIGH;
-      }
-      elsif($tmpPriority eq "low")
-      {
-        $priority=PRIO_LOW;
-      }
+      $priority=lc(substr($a,1,length($a)));
     }
     elsif (substr($a,0,1) eq "*")
     {
@@ -323,6 +313,32 @@ sub NTFY_Create_Msg_From_Arguments
   }
   chop $text;
   
+  if ($priority eq "default")
+      {
+        $priority=PRIO_DEFAULT;
+      }
+      elsif($priority eq "max")
+      {
+        $priority=PRIO_MAX;
+      }
+      elsif($priority eq "high")
+      {
+        $priority=PRIO_HIGH;
+      }
+      elsif($priority eq "low")
+      {
+        $priority=PRIO_LOW;
+      }
+      elsif($priority eq "min")
+      {
+        $priority=PRIO_MIN;
+      }
+      else 
+      {
+        $priority=PRIO_DEFAULT;
+      }
+
+
   if (@topics == 0)
   {
     my $defaultTopic = AttrVal($name, "defaultTopic",undef);
@@ -336,6 +352,8 @@ sub NTFY_Create_Msg_From_Arguments
       push(@topics, $defaultTopic);
     }
   }
+
+
 
   my $msg = 
   {
