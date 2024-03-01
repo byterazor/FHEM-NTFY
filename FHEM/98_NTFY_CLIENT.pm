@@ -113,7 +113,8 @@ sub NTFY_CLIENT_Initialize
   $hash->{AttrFn}     = 'NTFY_Attr';
   $hash->{ParseFn}    = 'NTFY_Parse';
   $hash->{DeleteFn}   = 'NTFY_Delete';
-  $hash->{AttrList}   = "defaultTopic "
+  $hash->{AttrList}   = "defaultTopic " .
+                        ""
                         . $readingFnAttributes;
 
 }
@@ -372,6 +373,8 @@ sub NTFY_Set
 sub NTFY_Attr
 {
   my ( $cmd, $name, $aName, $aValue ) = @_;
+
+  
   return undef;
 }
 
@@ -517,7 +520,12 @@ sub NTFY_Delete
 
   <a id="NTFY_CLIENT-attrib"></a>
   <h4>Attributes</h4>
-  No own attributes supported yet.
+  <dl>
+    <dt><b>defaultTopic</b></dt>
+    <dd>
+      Sets the default topic used if no topic is provided within the publish string.
+    </dd>
+  </dl>
 
 =end html
 
