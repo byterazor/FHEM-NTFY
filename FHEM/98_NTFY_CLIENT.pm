@@ -257,6 +257,26 @@ sub NTFY_Publish_Msg
                       readingsBulkUpdateIfChanged($hash, "lastUsedTopic", join(",", @{$msg->{topics}}));
                       readingsBulkUpdateIfChanged($hash, "lastMessageSend", $msg->{text});
                       readingsBulkUpdateIfChanged($hash, "lastRawMessage", to_json($message));
+                      if ($msg->{priority} == PRIO_MAX)
+                      {
+                          readingsBulkUpdateIfChanged($hash, "lastUsedPriority", "max");
+                      }
+                      elsif ($msg->{priority} == PRIO_HIGH)
+                      {
+                          readingsBulkUpdateIfChanged($hash, "lastUsedPriority", "high");
+                      }
+                      elsif ($msg->{priority} == PRIO_DEFAULT)
+                      {
+                          readingsBulkUpdateIfChanged($hash, "lastUsedPriority", "default");
+                      }
+                      elsif ($msg->{priority} == PRIO_LOW)
+                      {
+                          readingsBulkUpdateIfChanged($hash, "lastUsedPriority", "low");
+                      }
+                      elsif ($msg->{priority} == PRIO_MIN)
+                      {
+                          readingsBulkUpdateIfChanged($hash, "lastUsedPriority", "min");
+                      }
                       readingsBulkUpdateIfChanged($hash, "lastEror", "");
                       readingsEndUpdate($hash,1);
 
