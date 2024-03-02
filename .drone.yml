@@ -1,0 +1,92 @@
+kind: pipeline
+type: kubernetes
+name: build-amd64
+platform:
+  arch: amd64
+node_selector:
+  kubernetes.io/arch: amd64
+
+volumes:
+- name: fedhq-ca-crt
+  config_map:
+    name: fedhq-ca-crt
+    default_mode: 420     # same as 644 in octal, or u+w,a+r
+    optional: false
+
+steps:
+  - name: generate control
+    image: debian:bookworm
+    commands:
+      - scripts/generate_control.sh
+
+  - name: build amd64
+    image: quay.io/buildah/stable
+    privileged: true
+    volumes:
+    - name: fedhq-ca-crt
+      path: /etc/ssl/certs2/
+    commands:
+      - scripts/setupEnvironment.sh
+      - buildah bud -t "registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-amd64"  --arch amd64 .container/
+      - buildah push --all registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-amd64
+---
+kind: pipeline
+type: kubernetes
+name: build-arm64
+platform:
+  arch: arm64
+node_selector:
+  kubernetes.io/arch: arm64
+
+volumes:
+- name: fedhq-ca-crt
+  config_map:
+    name: fedhq-ca-crt
+    default_mode: 420     # same as 644 in octal, or u+w,a+r
+    optional: false
+
+steps:
+  - name: generate control
+    image: debian:bookworm
+    commands:
+      - scripts/generate_control.sh
+
+  - name: build arm64
+    image: quay.io/buildah/stable
+    privileged: true
+    volumes:
+    - name: fedhq-ca-crt
+      path: /etc/ssl/certs2/
+    commands:
+      - scripts/setupEnvironment.sh
+      - buildah bud -t "registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-arm64" --arch arm64 ./container/
+      - buildah push --all registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-arm64
+---
+kind: pipeline
+type: kubernetes
+name: push
+node_selector:
+  kubernetes.io/arch: amd64
+       
+volumes:
+- name: fedhq-ca-crt
+  config_map:
+    name: fedhq-ca-crt
+    default_mode: 420     # same as 644 in octal, or u+w,a+r
+    optional: false
+
+steps:
+  - name: push
+    image: quay.io/buildah/stable
+    privileged: true
+    volumes:
+    - name: fedhq-ca-crt
+      path: /etc/ssl/certs2/
+    commands:
+      - scripts/setupEnvironment.sh
+      - buildah manifest create nginx-fhem-ntfy:latest registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-arm64 registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-amd64
+      - buildah manifest push --all nginx-fhem-ntfy:latest docker://registry.cloud.federationhq.de/nginx-fhem-ntfy:latest 
+      - buildah manifest rm nginx-fhem-ntfy:latest
+depends_on:
+  - build-amd64
+  - build-arm64
