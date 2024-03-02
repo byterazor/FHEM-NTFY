@@ -17,6 +17,7 @@ steps:
   - name: generate control
     image: debian:bookworm
     commands:
+      - apt-get -qy update && apt-get install git
       - scripts/generate_control.sh
 
   - name: build amd64
@@ -49,6 +50,7 @@ steps:
   - name: generate control
     image: debian:bookworm
     commands:
+      - apt-get -qy update && apt-get install git
       - scripts/generate_control.sh
 
   - name: build arm64
