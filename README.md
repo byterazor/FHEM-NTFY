@@ -20,6 +20,19 @@ that this is a sparetime project of someone with a family.
 
 You will find the issue tracker at https://rm.byterazor.de/projects/fhem-ntfy.
 
+## Installation
+
+### Manual
+
+just copy the files within the FHEM directory to you FHEM installations FHEM directory and restart the server
+
+### FHEM Updates
+
+On the FHEM command line run 
+
+    update add https://rm.byterazor.de/upd-fhem-ntfy/controls_byterazor-fhem-ntfy.txt
+    update
+
 ## Authors
 
 - Dominik Meyer <dmeyer@federationhq.de>
