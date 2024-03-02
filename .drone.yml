@@ -28,7 +28,7 @@ steps:
       path: /etc/ssl/certs2/
     commands:
       - scripts/setupEnvironment.sh
-      - buildah bud -t "registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-amd64"  --arch amd64 .container/
+      - buildah bud -t "registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-amd64"  --arch amd64 .
       - buildah push --all registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-amd64
 ---
 kind: pipeline
@@ -61,7 +61,7 @@ steps:
       path: /etc/ssl/certs2/
     commands:
       - scripts/setupEnvironment.sh
-      - buildah bud -t "registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-arm64" --arch arm64 ./container/
+      - buildah bud -t "registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-arm64" --arch arm64 .
       - buildah push --all registry.cloud.federationhq.de/nginx-fhem-ntfy:latest-arm64
 ---
 kind: pipeline
