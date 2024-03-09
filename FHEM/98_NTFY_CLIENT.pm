@@ -140,6 +140,7 @@ sub NTFY_Define
 
     $hash->{NAME}                   = $name;
     $hash->{SERVER}                 = $params->[2];
+    $hash->{VERSION}                = $VERSION;
     $hash->{USERNAME}               = $h->{user} || "";
     $hash->{helper}{PASSWORD}       = $h->{password};
     $modules{NTFY_CLIENT}{defptr}{$hash->{SERVER}} = $hash;
