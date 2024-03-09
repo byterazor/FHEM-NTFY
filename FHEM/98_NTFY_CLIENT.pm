@@ -221,7 +221,7 @@ sub NTFY_Publish_Msg
 
     if ($msg->{priority})
     {
-      $message->{priority} = $msg->{priority};
+      $message->{priority} = int($msg->{priority});
     }
 
     if ($msg->{keywords})
