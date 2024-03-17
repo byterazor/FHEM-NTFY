@@ -150,17 +150,25 @@ sub NTFY_Define
     return;
 }
 
+sub NTFY_Get_Subscriptions
+{
+  my $hash = shift;
+  my @subscriptions;
+
+  for my $k (keys %{$modules{NTFY_TOPIC}{defptr}})
+  {
+    $k=~/^(.*)_(.*)$/;
+    push(@subscriptions,$2);
+  }
+
+  return @subscriptions;
+}
+
 sub NTFY_Update_Subscriptions_Readings
 {
     my $hash = shift;
-    my @topics;
+    my @topics = NTFY_Get_Subscriptions($hash);
 
-    for my $k (keys %{$modules{NTFY_TOPIC}{defptr}})
-    {
-      $k=~/^(.*)_(.*)$/;
-      push(@topics,$2);
-    }
-    
     readingsSingleUpdate($hash,"subscriptions", join(",", @topics),1);
 
 }
