@@ -213,7 +213,6 @@ sub NTFY_TOPIC_Read
 
     if (!$buf)
     {
-      NTFY_TOPIC_LOG(LOG_ERROR, "websocket disconnected");
       InternalTimer(gettimeofday()+30, "NTFY_TOPIC_Reconnect", $hash);
       return;
     }
