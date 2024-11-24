@@ -80,7 +80,6 @@ sub NTFY_TOPIC_Initialize
   $hash->{WriteFn}    = 'NTFY_TOPIC_Write';
   $hash->{AttrFn}     = 'NTFY_TOPIC_Attr';
   $hash->{AttrList}   = $readingFnAttributes;
-
   $hash->{MatchList} = {"1:NTFY_CLIENT" => "^NTFY:.*"};
 
 }
@@ -122,6 +121,7 @@ sub NTFY_TOPIC_Define
     $hash->{Clients}                = "NTFY_CLIENT";
     $hash->{ClientsKeepOrder}       = 1;
     $hash->{STATE}                  = "unknown";
+    $hash->{nextOpenDelay}          = 20;
     $modules{NTFY_TOPIC}{defptr}{$hash->{SERVER} . "_" . $hash->{TOPIC}} = $hash;
 
     $attr{$hash->{NAME}}{room} = 'hidden';
@@ -207,8 +207,16 @@ sub NTFY_WS_CB
 
 sub NTFY_TOPIC_Read
 {
-	my ( $hash ) = @_;
+	  my ( $hash ) = @_;
+
     my $buf = DevIo_SimpleRead($hash);
+
+    if (!$buf)
+    {
+      NTFY_TOPIC_LOG(LOG_ERROR, "websocket disconnected");
+      InternalTimer(gettimeofday()+30, "NTFY_TOPIC_Reconnect", $hash);
+      return;
+    }
 
     return unless length($buf) > 0;
 
@@ -224,6 +232,17 @@ sub NTFY_TOPIC_Read
     readingsEndUpdate($hash,1);
 
     Dispatch($hash,"NTFY:" . $hash->{SERVER}. "---" . $buf,{},1);
+}
+
+
+sub NTFY_TOPIC_Reconnect
+{
+  my $hash = shift;
+  if (!DevIo_IsOpen($hash))
+  {
+    NTFY_TOPIC_LOG(LOG_ERROR, "reconnecting websocket");
+    DevIo_OpenDev( $hash, 1, "NTFY_WS_Handshake", "NTFY_WS_CB" );
+  }
 }
 
 1;
