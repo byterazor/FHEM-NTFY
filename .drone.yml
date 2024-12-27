@@ -103,3 +103,32 @@ steps:
 depends_on:
   - build-amd64
   - build-arm64
+
+---
+
+kind: pipeline
+type: kubernetes
+name: mirror-to-github
+node_selector:
+  kubernetes.io/arch: amd64
+  federationhq.de/location: Blumendorf
+  federationhq.de/compute: true
+steps:
+  - name: github-mirror
+    image: registry.cloud.federationhq.de/drone-github-mirror:latest
+    pull: always
+    settings:
+      GH_TOKEN: 
+        from_secret: GH_TOKEN
+      GH_REPO: "byterazor/FHEM-NTFY"
+      GH_REPO_DESC: "Module for the Homeautomation Tool fhem to send and receive notifications through ntfy.sh and self hosted instances"
+      GH_REPO_HOMEPAGE: "https://rm.byterazor.de/projects/fhem-ntfy"
+depends_on:
+    - push
+
+--- 
+kind: secret
+name: GH_TOKEN
+get:
+  path: github
+  name: token
